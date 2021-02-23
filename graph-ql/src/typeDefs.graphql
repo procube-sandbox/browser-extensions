@@ -1,6 +1,6 @@
-type Website {
-  id: ID!
-  url: String!
+type LoginDom {
+  url: ID!
+  name: String
   idFormId: String
   idFormClass: String
   idFormClassOrder: Int
@@ -13,11 +13,6 @@ type Website {
   pwFormType: String
 }
 
-type User {
-  id: ID!
-  credentials: [Credentials]!
-}
-
 type Credential {
   id: ID!
   extensionUserID: String!
@@ -27,5 +22,5 @@ type Credential {
 }
 
 type Query {
-  loginDomByWebsite: Website!
+  loginDomByUrl(url: String!): LoginDom
 }

@@ -1,9 +1,8 @@
 export const db = {
-  websites: [
+  loginDoms: [
     {
-      id: 1,
-      name: 'Nikkei X tech',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
+      name: 'Nikkei X tech',
       idFormId: 'LA0310Form01:LA0310Email',
       idFormClass: null,
       idFormClassOrder: null,
@@ -16,9 +15,8 @@ export const db = {
       pwFormType: 'password',
     },
     {
-      id: 2,
-      name: 'Nikkei X tech',
       url: 'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
+      name: '日経 電子版',
       idFormId: 'LA7010Form01:LA7010Email',
       idFormClass: null,
       idFormClassOrder: null,
