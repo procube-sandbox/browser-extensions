@@ -5,6 +5,7 @@
     "lib": [
       "es2018"
     ],
+    "esModuleInterop": true,
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -24,6 +25,6 @@
     ],
   },
   "include": [
-    "src/*"
+    "src/**/*"
   ]
 }

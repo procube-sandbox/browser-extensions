@@ -28,6 +28,9 @@
     "typescript": "~4.1.5"
   },
   "scripts": {
+    "start": "nodemon -e js,json,graphql",
+    "build": "tsc",
+    "watch": "tsc -w",
     "test": "jest"
   },
   "author": "",
