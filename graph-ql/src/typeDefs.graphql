@@ -1,0 +1,31 @@
+type Website {
+  id: ID!
+  url: String!
+  idFormId: String
+  idFormClass: String
+  idFormClassOrder: Int
+  idFormName: String
+  idFormType: String
+  pwFormId: String
+  pwFormClass: String
+  pwFormClassOrder: Int
+  pwFormName: String
+  pwFormType: String
+}
+
+type User {
+  id: ID!
+  credentials: [Credentials]!
+}
+
+type Credential {
+  id: ID!
+  extensionUserID: String!
+  websiteUrl: String!
+  userID: String!
+  userPW: String!
+}
+
+type Query {
+  loginDomByWebsite: Website!
+}
