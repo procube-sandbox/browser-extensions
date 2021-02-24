@@ -1,9 +1,9 @@
 module.exports = {
   roots: ['<rootDir>/test'],
-  coverageDirectory: "coverage",
-  testEnvironment: "node",
+  coverageDirectory: 'coverage',
+  testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
   transform: {
-    '^.+//.tsx?$': 'ts-jest'
-  }
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
 };
