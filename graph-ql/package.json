@@ -5,6 +5,7 @@
   "main": "dist/src/index.js",
   "dependencies": {
     "apollo-server-express": "~2.21.0",
+    "apollo-server-testing": "~2.21.0",
     "express": "~4.17.1",
     "graphql": "~15.5.0",
     "graphql-playground-middleware-express": "~1.7.22",
@@ -15,7 +16,6 @@
     "@types/node": "~14.14.31",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
-    "apollo-server-testing": "~2.21.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.0.0",
@@ -31,6 +31,7 @@
     "start": "nodemon -e js,json,graphql",
     "build": "tsc",
     "watch": "tsc -w",
+    "test": "jest",
     "lint": "eslint .",
   },
   "author": "",
