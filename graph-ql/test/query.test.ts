@@ -8,8 +8,18 @@ import { db } from '../src/db';
 const typeDefs = readFileSync('./src/typeDefs.graphql', 'utf-8');
 const context = { db };
 
-const LOGIN_DOM_BY_QUELY = `query test($url: ID!) {
-  loginDomByUrl(url: $url) {
+const setupServer = () => {
+  const server = new ApolloServer({
+    resolvers,
+    typeDefs,
+    context,
+  });
+  const { query } = createTestClient(server);
+  return query;
+};
+
+const GET_LOGIN_DOM_BY_URL = `query test($url: ID!) {
+  getLoginDomByUrl(url: $url) {
     url
     name
     idFormId
@@ -25,22 +35,19 @@ const LOGIN_DOM_BY_QUELY = `query test($url: ID!) {
   }
 }`;
 
-describe('test query', () => {
-  const server = new ApolloServer({
-    resolvers,
-    typeDefs,
-    context,
-  });
-  const { query } = createTestClient(server);
 
-  test('loginDomByUrl', async () => {
+
+describe('test getLoginDomByUrl', () => {
+  const query = setupServer();
+
+  test('URLを入力し、DOMを返す。', async () => {
     const res = await query({
-      query: LOGIN_DOM_BY_QUELY,
+      query: GET_LOGIN_DOM_BY_URL,
       variables: {
         url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       },
     });
-    const actual = res.data.loginDomByUrl;
+    const actual = res.data.getLoginDomByUrl;
     const expected = {
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       name: 'Nikkei X tech',
@@ -55,6 +62,17 @@ describe('test query', () => {
       pwFormName: 'LA0310Form01:LA0310Password',
       pwFormType: 'password',
     };
+    expect(actual).toEqual(expected);
+  });
+  test('URLを入力し、見つからない場合nullを返す', async () => {
+    const res = await query({
+      query: GET_LOGIN_DOM_BY_URL,
+      variables: {
+        url: 'https://notexist.com',
+      },
+    });
+    const actual = res.data.getLoginDomByUrl;
+    const expected = null;
     expect(actual).toEqual(expected);
   });
 });

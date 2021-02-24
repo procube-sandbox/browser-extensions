@@ -22,5 +22,5 @@ type Credential {
 }
 
 type Query {
-  loginDomByUrl(url: ID!): LoginDom
+  getLoginDomByUrl(url: ID!): LoginDom
 }
