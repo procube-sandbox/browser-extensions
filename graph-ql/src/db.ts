@@ -29,16 +29,16 @@ export const db = {
       pwFormType: 'password',
     },
   ],
-  userCredentials: [
+  credentials: [
     {
-      id: 1,
+      id: '1',
       extensionUserID: 'test1',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       userID: 'testuser1',
       userPW: 'testpw1',
     },
     {
-      id: 2,
+      id: '2',
       extensionUserID: 'test2',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       userID: 'testuser2',

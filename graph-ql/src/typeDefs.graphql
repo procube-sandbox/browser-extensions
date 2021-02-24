@@ -16,11 +16,17 @@ type LoginDom {
 type Credential {
   id: ID!
   extensionUserID: String!
-  websiteUrl: String!
+  url: String!
   userID: String!
   userPW: String!
 }
 
+input GetCredentialInput {
+  extensionUserID: String!
+  url: String!
+}
+
 type Query {
   getLoginDomByUrl(url: ID!): LoginDom
+  getCredential(input: GetCredentialInput!): Credential
 }

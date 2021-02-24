@@ -35,7 +35,15 @@ const GET_LOGIN_DOM_BY_URL = `query test($url: ID!) {
   }
 }`;
 
-
+const GET_CREDENTIAL = `query test($input: GetCredentialInput!){
+  getCredential(input: $input) {
+    id
+    extensionUserID
+    url
+    userID
+    userPW
+  }
+}`;
 
 describe('test getLoginDomByUrl', () => {
   const query = setupServer();
@@ -64,6 +72,7 @@ describe('test getLoginDomByUrl', () => {
     };
     expect(actual).toEqual(expected);
   });
+
   test('URLを入力し、見つからない場合nullを返す', async () => {
     const res = await query({
       query: GET_LOGIN_DOM_BY_URL,
@@ -72,6 +81,61 @@ describe('test getLoginDomByUrl', () => {
       },
     });
     const actual = res.data.getLoginDomByUrl;
+    const expected = null;
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe('test getCredential', () => {
+  const query = setupServer();
+
+  test('URLと拡張機能のユーザーIDを入力し、WebサイトのログインIDとパスワードを返す。', async () => {
+    const res = await query({
+      query: GET_CREDENTIAL,
+      variables: {
+        input: {
+          extensionUserID: 'test1',
+          url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
+        },
+      },
+    });
+    const actual = res.data.getCredential;
+    const expected = {
+      id: '1',
+      extensionUserID: 'test1',
+      url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
+      userID: 'testuser1',
+      userPW: 'testpw1',
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  test('ユーザー見つからなかった場合nullを返す。', async () => {
+    const res = await query({
+      query: GET_CREDENTIAL,
+      variables: {
+        input: {
+          extensionUserID: 'notexist',
+          url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
+        },
+      },
+    });
+    const actual = res.data.getCredential;
+    const expected = null;
+    expect(actual).toEqual(expected);
+  });
+
+  test('webサイトが見つからなかった場合nullを返す。', async () => {
+    const res = await query({
+      query: GET_CREDENTIAL,
+      variables: {
+        input: {
+          extensionUserID: 'test1',
+          url: 'https://notexist.com',
+        },
+      },
+    });
+    const actual = res.data.getCredential;
     const expected = null;
     expect(actual).toEqual(expected);
   });
