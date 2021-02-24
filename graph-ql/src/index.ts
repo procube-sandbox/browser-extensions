@@ -3,10 +3,10 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { readFileSync } from 'fs';
 
-const typeDefs = readFileSync('./src/typeDefs.graphql', 'utf-8');
 import { resolvers } from './resolvers';
 import { db } from './db';
 
+const typeDefs = readFileSync('./src/typeDefs.graphql', 'utf-8');
 const expressPlayground = graphqlPlaygroundMiddlewareExpress.default;
 
 async function start() {
