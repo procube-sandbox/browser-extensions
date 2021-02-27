@@ -23,16 +23,9 @@ const getLoginDomByUrl = async (url) => {
         getLoginDomByUrl(url: $url) {
           url
           name
-          idFormId
-          idFormClass
-          idFormClassOrder
-          idFormName
-          idFormType
-          pwFormId
-          pwFormClass
-          pwFormClassOrder
-          pwFormName
-          pwFormType
+          idXPath
+          pwXPath
+          submitXPath
         }
       }`,
     variables: {
@@ -101,6 +94,7 @@ const login = async (tabs) => {
     console.log('credential is null.');
     return;
   }
+  chrome.tabs.sendMessage(tabs[0].id, { loginDoms, credential });
 };
 
 const main = () => {
