@@ -2,11 +2,6 @@
 .DS_Store
 Thumbs.db
 
-### TS ###
-*.js
-!jest.config.js
-*.d.ts
-
 ### Node ###
 # Logs
 logs

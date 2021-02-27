@@ -1,0 +1,32 @@
+{
+  "name": "Auto Login",
+  "version": "1.0.0",
+  "description": "Auto Login extension",
+  "permissions": ["tabs","http://localhost:4000/*"],
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_popup": "html/popup.html",
+    "default_icon": {
+      "16": "img/icon16.png",
+      "19": "img/icon32.png",
+      "32": "img/icon32.png",
+      "38": "img/icon32.png",
+      "48": "img/icon64.png",
+      "96": "img/icon128.png",
+      "128": "img/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "img/icon16.png",
+    "19": "img/icon32.png",
+    "32": "img/icon32.png",
+    "38": "img/icon32.png",
+    "48": "img/icon64.png",
+    "96": "img/icon128.png",
+    "128": "img/icon128.png"
+  },
+  "manifest_version": 2
+}
