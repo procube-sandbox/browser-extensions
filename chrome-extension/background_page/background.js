@@ -63,18 +63,18 @@ const getCredential = async (token, url) => {
   }
 };
 
-const login = async (e) => {
+const login = async (tabs) => {
   const token = localStorage.getItem('token');
-  const url = e[0].url;
+  let url = tabs[0].url;
   // クエリパラメータを除外
-  const urlSanitized = url.replace(/\?.*$/, '');
-  const loginDoms = await getLoginDomByUrl(urlSanitized);
+  url = url.replace(/\?.*$/, '');
+  const loginDoms = await getLoginDomByUrl(url);
   console.log(loginDoms);
   if (!loginDoms) {
     console.log('data is null.');
     return;
   }
-  const credential = await getCredential(token, urlSanitized);
+  const credential = await getCredential(token, url);
   console.log(credential);
   if (!credential) {
     console.log('data is null.');
