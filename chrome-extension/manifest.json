@@ -4,11 +4,11 @@
   "description": "Auto Login extension",
   "permissions": ["tabs","http://localhost:4000/*"],
   "background": {
-    "scripts": ["js/background.js"],
+    "scripts": ["background_page/background.js"],
     "persistent": true
   },
   "browser_action": {
-    "default_popup": "html/popup.html",
+    "default_popup": "browser_action/popup.html",
     "default_icon": {
       "16": "img/icon16.png",
       "19": "img/icon32.png",
@@ -19,6 +19,12 @@
       "128": "img/icon128.png"
     }
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js":["content_script/content.js"]
+
+  }],
   "icons": {
     "16": "img/icon16.png",
     "19": "img/icon32.png",
