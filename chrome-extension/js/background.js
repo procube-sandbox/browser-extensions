@@ -35,6 +35,34 @@ const getLoginDomByUrl = async (url) => {
     console.log(error);
   }
 };
+
+const getCredential = async (token, url) => {
+  const requestBody = {
+    query: `
+      query getCredential($input: GetCredentialInput!){
+        getCredential(input: $input) {
+          userID
+          userPW
+        }
+      }`,
+    variables: {
+      input: { extensionUserID: token, url: url },
+    },
+  };
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody),
+    });
+    const responseBody = await res.json();
+    const credential = responseBody.data.getCredential;
+    return credential;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const login = async (e) => {
   const token = localStorage.getItem('token');
   const url = e[0].url;
@@ -43,6 +71,12 @@ const login = async (e) => {
   const loginDoms = await getLoginDomByUrl(urlSanitized);
   console.log(loginDoms);
   if (!loginDoms) {
+    console.log('data is null.');
+    return;
+  }
+  const credential = await getCredential(token, urlSanitized);
+  console.log(credential);
+  if (!credential) {
     console.log('data is null.');
     return;
   }
