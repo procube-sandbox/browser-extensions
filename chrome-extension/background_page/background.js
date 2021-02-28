@@ -5,6 +5,7 @@ const getRegisteredUrls = () => {
   const registeredUrls = [
     'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
     'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
+    'https://github.com/login',
   ];
 
   return registeredUrls;
@@ -19,7 +20,7 @@ const isUnregistered = (url) => {
 const getLoginDomByUrl = async (url) => {
   const requestBody = {
     query: `
-      query getLoginnDomByUrl($url: ID!){
+      query getLoginDomByUrl($url: ID!){
         getLoginDomByUrl(url: $url) {
           url
           name
@@ -77,7 +78,6 @@ const login = async (tab, url) => {
   const token = localStorage.getItem('token');
 
   const loginDoms = await getLoginDomByUrl(url);
-  console.log(loginDoms);
   if (!loginDoms) {
     console.log('loginDoms is null.');
     return;
