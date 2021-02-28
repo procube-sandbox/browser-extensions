@@ -89,11 +89,22 @@ const login = async (tab, url) => {
   }
   chrome.tabs.sendMessage(tab.id, { loginDoms, credential });
 };
+
+let previousUrl = '';
+
+const isReaccess = (url) => {
+  return url === previousUrl;
 };
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {
     const url = tab.url.replace(/\?.*$/, '');
+
+    if (isReaccess(url)) {
+      console.log('The script is not executed when re-accessing.');
+      return;
+    }
+    previousUrl = url;
 
     if (isUnregistered(url)) {
       console.log('This website is not registered.');
