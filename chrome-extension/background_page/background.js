@@ -73,11 +73,8 @@ const getCredential = async (token, url) => {
   }
 };
 
-const login = async (tabs) => {
+const login = async (tab, url) => {
   const token = localStorage.getItem('token');
-  let url = tabs[0].url;
-  // クエリパラメータを除外
-  url = url.replace(/\?.*$/, '');
   if (!isRegistered(url)) {
     console.log('This website is not registered.');
     return;
@@ -89,19 +86,18 @@ const login = async (tabs) => {
     return;
   }
   const credential = await getCredential(token, url);
-  console.log(credential);
   if (!credential) {
     console.log('credential is null.');
     return;
   }
-  chrome.tabs.sendMessage(tabs[0].id, { loginDoms, credential });
+  chrome.tabs.sendMessage(tab.id, { loginDoms, credential });
+};
 };
 
-const main = () => {
-  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status == 'complete') {
-      chrome.tabs.query({ active: true, currentWindow: true }, login);
-    }
-  });
-};
-main();
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete') {
+    const url = tab.url.replace(/\?.*$/, '');
+
+    login(tab, url);
+  }
+});
