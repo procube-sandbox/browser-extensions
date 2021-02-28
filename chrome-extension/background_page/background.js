@@ -1,4 +1,21 @@
 const API_URL = 'http://localhost:4000/graphql';
+
+const getRegisteredUrls = () => {
+  // 自動ログインに対応したWebサイトのURLを取得する処理を書く。
+  const registeredUrls = [
+    'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
+    'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
+  ];
+
+  return registeredUrls;
+};
+
+const REGISTERED_URLS = getRegisteredUrls();
+
+const isRegistered = (url) => {
+  return REGISTERED_URLS.includes(url);
+};
+
 const getLoginDomByUrl = async (url) => {
   const requestBody = {
     query: `
@@ -6,16 +23,9 @@ const getLoginDomByUrl = async (url) => {
         getLoginDomByUrl(url: $url) {
           url
           name
-          idFormId
-          idFormClass
-          idFormClassOrder
-          idFormName
-          idFormType
-          pwFormId
-          pwFormClass
-          pwFormClassOrder
-          pwFormName
-          pwFormType
+          idXPath
+          pwXPath
+          submitXPath
         }
       }`,
     variables: {
@@ -63,23 +73,28 @@ const getCredential = async (token, url) => {
   }
 };
 
-const login = async (e) => {
+const login = async (tabs) => {
   const token = localStorage.getItem('token');
-  const url = e[0].url;
+  let url = tabs[0].url;
   // クエリパラメータを除外
-  const urlSanitized = url.replace(/\?.*$/, '');
-  const loginDoms = await getLoginDomByUrl(urlSanitized);
+  url = url.replace(/\?.*$/, '');
+  if (!isRegistered(url)) {
+    console.log('This website is not registered.');
+    return;
+  }
+  const loginDoms = await getLoginDomByUrl(url);
   console.log(loginDoms);
   if (!loginDoms) {
-    console.log('data is null.');
+    console.log('loginDoms is null.');
     return;
   }
-  const credential = await getCredential(token, urlSanitized);
+  const credential = await getCredential(token, url);
   console.log(credential);
   if (!credential) {
-    console.log('data is null.');
+    console.log('credential is null.');
     return;
   }
+  chrome.tabs.sendMessage(tabs[0].id, { loginDoms, credential });
 };
 
 const main = () => {

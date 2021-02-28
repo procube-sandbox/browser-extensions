@@ -1,16 +1,9 @@
 type LoginDom {
   url: ID!
   name: String
-  idFormId: String
-  idFormClass: String
-  idFormClassOrder: Int
-  idFormName: String
-  idFormType: String
-  pwFormId: String
-  pwFormClass: String
-  pwFormClassOrder: Int
-  pwFormName: String
-  pwFormType: String
+  idXPath: String!
+  pwXPath: String!
+  submitXPath: String!
 }
 
 type Credential {
