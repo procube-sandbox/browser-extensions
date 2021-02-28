@@ -5,6 +5,7 @@ const getRegisteredUrls = () => {
   const registeredUrls = [
     'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
     'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
+    'https://github.com/login',
   ];
 
   return registeredUrls;
@@ -12,14 +13,14 @@ const getRegisteredUrls = () => {
 
 const REGISTERED_URLS = getRegisteredUrls();
 
-const isRegistered = (url) => {
-  return REGISTERED_URLS.includes(url);
+const isUnregistered = (url) => {
+  return !REGISTERED_URLS.includes(url);
 };
 
 const getLoginDomByUrl = async (url) => {
   const requestBody = {
     query: `
-      query getLoginnDomByUrl($url: ID!){
+      query getLoginDomByUrl($url: ID!){
         getLoginDomByUrl(url: $url) {
           url
           name
@@ -73,35 +74,43 @@ const getCredential = async (token, url) => {
   }
 };
 
-const login = async (tabs) => {
+const login = async (tab, url) => {
   const token = localStorage.getItem('token');
-  let url = tabs[0].url;
-  // クエリパラメータを除外
-  url = url.replace(/\?.*$/, '');
-  if (!isRegistered(url)) {
-    console.log('This website is not registered.');
-    return;
-  }
+
   const loginDoms = await getLoginDomByUrl(url);
-  console.log(loginDoms);
   if (!loginDoms) {
     console.log('loginDoms is null.');
     return;
   }
   const credential = await getCredential(token, url);
-  console.log(credential);
   if (!credential) {
     console.log('credential is null.');
     return;
   }
-  chrome.tabs.sendMessage(tabs[0].id, { loginDoms, credential });
+  chrome.tabs.sendMessage(tab.id, { loginDoms, credential });
 };
 
-const main = () => {
-  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status == 'complete') {
-      chrome.tabs.query({ active: true, currentWindow: true }, login);
-    }
-  });
+let previousUrl = '';
+
+const isReaccess = (url) => {
+  return url === previousUrl;
 };
-main();
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete') {
+    const url = tab.url.replace(/\?.*$/, '');
+
+    if (isReaccess(url)) {
+      console.log('The script is not executed when re-accessing.');
+      return;
+    }
+    previousUrl = url;
+
+    if (isUnregistered(url)) {
+      console.log('This website is not registered.');
+      return;
+    }
+
+    login(tab, url);
+  }
+});
