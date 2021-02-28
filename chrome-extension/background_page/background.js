@@ -12,8 +12,8 @@ const getRegisteredUrls = () => {
 
 const REGISTERED_URLS = getRegisteredUrls();
 
-const isRegistered = (url) => {
-  return REGISTERED_URLS.includes(url);
+const isUnregistered = (url) => {
+  return !REGISTERED_URLS.includes(url);
 };
 
 const getLoginDomByUrl = async (url) => {
@@ -75,10 +75,7 @@ const getCredential = async (token, url) => {
 
 const login = async (tab, url) => {
   const token = localStorage.getItem('token');
-  if (!isRegistered(url)) {
-    console.log('This website is not registered.');
-    return;
-  }
+
   const loginDoms = await getLoginDomByUrl(url);
   console.log(loginDoms);
   if (!loginDoms) {
@@ -97,6 +94,11 @@ const login = async (tab, url) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {
     const url = tab.url.replace(/\?.*$/, '');
+
+    if (isUnregistered(url)) {
+      console.log('This website is not registered.');
+      return;
+    }
 
     login(tab, url);
   }
