@@ -47,3 +47,32 @@ API に登録されている、ユーザーを特定するためのトークン�
 
 1. `chrome.runtime.onMessage.addListner`: `background.js`から Message を受け取ったときに発火する。
 2. コールバック関数では`background.js`loginDom に格納された XPath を元に Dom を取得して、各 input 要素を埋め、送信ボタンをクリックする。
+
+## 開発方法
+
+### 拡張機能の実行手順
+
+1. ブラウザで`chrome://extensions/`にアクセス。
+2. 画面右上のスイッチをクリックし、デベロッパーモードを有効にする。
+3. 画面左上のパッケージ化されていない拡張機能を読み込むをクリック。
+4. 本レポジトリの`chrome-extension`ディレクトリを選択する。
+5. 拡張機能が追加されれば成功。
+
+### デバッグ方法
+
+#### background page
+
+1. ブラウザで`chrome://extensions/`にアクセス。
+2. 拡張機能の`ビューを検証 バックグラウンドページ`をクリック。
+3. DevTools が起動する。
+
+#### browser action(popup)
+
+1. ブラウザのアドレスバー右にある拡張機能のアイコン右クリック。
+2. `ポップアップを検証`をクリック。
+3. DevTools が起動する。
+
+#### content script
+
+`Chromeメニュー -> 表示 -> 開発 / 管理 -> デベロッパーツール`
+から DevTools を起動する。
