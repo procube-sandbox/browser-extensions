@@ -8,14 +8,14 @@ type LoginDom {
 
 type Credential {
   id: ID!
-  extensionUserID: String!
+  apiToken: String!
   url: String!
   userID: String!
   userPW: String!
 }
 
 input GetCredentialInput {
-  extensionUserID: String!
+  apiToken: String!
   url: String!
 }
 
