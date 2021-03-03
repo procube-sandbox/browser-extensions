@@ -14,6 +14,13 @@ export const db = {
       pwXPath: '//*[@id="LA7010Form01:LA7010Password"]',
       submitXPath: '//*[@id="LA7010Form01"]/div/div[3]/label/button',
     },
+    {
+      url: 'https://github.com/login',
+      name: 'GitHub',
+      idXPath: '//*[@id="login_field"]',
+      pwXPath: '//*[@id="password"]',
+      submitXPath: '//*[@id="login"]/div[4]/form/input[14]',
+    },
   ],
   credentials: [
     {
