@@ -47,7 +47,7 @@ async function getLoginDomByUrl(url) {
   }
 }
 
-async function getCredential(token, url) {
+async function getCredential(apiToken, url) {
   const requestBody = {
     query: `
       query getCredential($input: GetCredentialInput!){
@@ -57,7 +57,7 @@ async function getCredential(token, url) {
         }
       }`,
     variables: {
-      input: { extensionUserID: token, url: url },
+      input: { apiToken: apiToken, url: url },
     },
   };
   try {
@@ -75,14 +75,14 @@ async function getCredential(token, url) {
 }
 
 async function login(tab, url) {
-  const token = localStorage.getItem('token');
+  const apiToken = localStorage.getItem('apiToken');
 
   const loginDoms = await getLoginDomByUrl(url);
   if (!loginDoms) {
     console.log('loginDoms is null.');
     return;
   }
-  const credential = await getCredential(token, url);
+  const credential = await getCredential(apiToken, url);
   if (!credential) {
     console.log('credential is null.');
     return;

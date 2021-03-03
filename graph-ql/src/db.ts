@@ -25,24 +25,31 @@ export const db = {
   credentials: [
     {
       id: '1',
-      extensionUserID: 'test1',
+      apiToken: 'test1',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       userID: 'testid',
       userPW: 'testpw',
     },
     {
       id: '2',
-      extensionUserID: 'test1',
+      apiToken: 'test1',
       url: 'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
       userID: 'testid',
       userPW: 'testpw',
     },
     {
       id: '3',
-      extensionUserID: 'test2',
+      apiToken: 'test2',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
-      userID: 'testuser2',
-      userPW: 'testpw2',
+      userID: 'testid',
+      userPW: 'testpw',
+    },
+    {
+      id: '4',
+      apiToken: 'test1',
+      url: 'https://github.com/login',
+      userID: 'testid',
+      userPW: 'testpw',
     },
   ],
 };
