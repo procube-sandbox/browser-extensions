@@ -1,6 +1,6 @@
 const API_URL = 'http://localhost:4000/graphql';
 
-const getRegisteredUrls = () => {
+function getRegisteredUrls() {
   // 自動ログインに対応したWebサイトのURLを取得する処理を書く。
   const registeredUrls = [
     'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
@@ -9,15 +9,15 @@ const getRegisteredUrls = () => {
   ];
 
   return registeredUrls;
-};
+}
 
 const REGISTERED_URLS = getRegisteredUrls();
 
-const isUnregistered = (url) => {
+function isUnregistered(url) {
   return !REGISTERED_URLS.includes(url);
-};
+}
 
-const getLoginDomByUrl = async (url) => {
+async function getLoginDomByUrl(url) {
   const requestBody = {
     query: `
       query getLoginDomByUrl($url: ID!){
@@ -45,9 +45,9 @@ const getLoginDomByUrl = async (url) => {
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-const getCredential = async (token, url) => {
+async function getCredential(token, url) {
   const requestBody = {
     query: `
       query getCredential($input: GetCredentialInput!){
@@ -72,9 +72,9 @@ const getCredential = async (token, url) => {
   } catch (error) {
     console.log(error);
   }
-};
+}
 
-const login = async (tab, url) => {
+async function login(tab, url) {
   const token = localStorage.getItem('token');
 
   const loginDoms = await getLoginDomByUrl(url);
@@ -88,13 +88,13 @@ const login = async (tab, url) => {
     return;
   }
   chrome.tabs.sendMessage(tab.id, { loginDoms, credential });
-};
+}
 
 let previousUrl = '';
 
-const isReaccess = (url) => {
+function isReaccess(url) {
   return url === previousUrl;
-};
+}
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {

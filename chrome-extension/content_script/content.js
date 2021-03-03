@@ -1,4 +1,4 @@
-const getElementsByXPath = (expression, parentElement) => {
+function getElementsByXPath(expression, parentElement) {
   const r = [];
   const x = document.evaluate(
     expression,
@@ -11,7 +11,7 @@ const getElementsByXPath = (expression, parentElement) => {
     r.push(x.snapshotItem(i));
   }
   return r;
-};
+}
 
 chrome.runtime.onMessage.addListener(
   ({ loginDoms, credential }, sender, sendResponse) => {
