@@ -23,8 +23,6 @@ async function start() {
 
   server.applyMiddleware({ app });
 
-  app.get('/', (req, res) => res.end('Welcome to hte PhotoShare API'));
-
   app.get('/playground', expressPlayground({ endpoint: '/graphql' }));
 
   app.listen({ port: 4000 }, () =>

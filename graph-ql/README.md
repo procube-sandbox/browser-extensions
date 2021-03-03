@@ -1,25 +1,31 @@
 # GraphQL モックサーバ
 
-## 依存関係のインストール
+## 開発方法
+
+### 環境構築
 
 ```bash
 # in graph-pl directory
 npm ci
 ```
 
-## 起動方法
+### 起動方法
 
-nodemon が ts-node を起動してくれる。
-起動中のコード変更は自動的に反映されるため、再起動の必要はない。
+nodemon で ts-node を起動する。
+起動中のコード変更の際はホットリロードされるため、コード変更のたびに再起動する必要はない。
 
 ```bash
 npm run start
 ```
 
-## テスト
-
-以下を実行する。
+### テスト実行方法
 
 ```bash
 npm run test
+```
+
+### Lint 実行方法
+
+```bash
+npm run lint
 ```
