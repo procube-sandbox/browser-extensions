@@ -22,23 +22,16 @@ const GET_LOGIN_DOM_BY_URL = `query test($url: ID!) {
   getLoginDomByUrl(url: $url) {
     url
     name
-    idFormId
-    idFormClass
-    idFormClassOrder
-    idFormName
-    idFormType
-    pwFormId
-    pwFormClass
-    pwFormClassOrder
-    pwFormName
-    pwFormType
+    idXPath
+    pwXPath
+    submitXPath
   }
 }`;
 
 const GET_CREDENTIAL = `query test($input: GetCredentialInput!){
   getCredential(input: $input) {
     id
-    extensionUserID
+    apiToken
     url
     userID
     userPW
@@ -59,16 +52,9 @@ describe('test getLoginDomByUrl', () => {
     const expected = {
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
       name: 'Nikkei X tech',
-      idFormId: 'LA0310Form01:LA0310Email',
-      idFormClass: null,
-      idFormClassOrder: null,
-      idFormName: 'LA0310Form01:LA0310Email',
-      idFormType: null,
-      pwFormId: 'LA0310Form01:LA0310Password',
-      pwFormClass: null,
-      pwFormClassOrder: null,
-      pwFormName: 'LA0310Form01:LA0310Password',
-      pwFormType: 'password',
+      idXPath: '//*[@id="LA0310Form01:LA0310Email"]',
+      pwXPath: '//*[@id="LA0310Form01:LA0310Password"]',
+      submitXPath: '//*[@id="LA0310Form01"]/div/div/label/button',
     };
     expect(actual).toEqual(expected);
   });
@@ -94,7 +80,7 @@ describe('test getCredential', () => {
       query: GET_CREDENTIAL,
       variables: {
         input: {
-          extensionUserID: 'test1',
+          apiToken: 'test1',
           url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
         },
       },
@@ -102,10 +88,10 @@ describe('test getCredential', () => {
     const actual = res.data.getCredential;
     const expected = {
       id: '1',
-      extensionUserID: 'test1',
+      apiToken: 'test1',
       url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
-      userID: 'testuser1',
-      userPW: 'testpw1',
+      userID: 'testid',
+      userPW: 'testpw',
     };
     expect(actual).toEqual(expected);
   });
@@ -115,7 +101,7 @@ describe('test getCredential', () => {
       query: GET_CREDENTIAL,
       variables: {
         input: {
-          extensionUserID: 'notexist',
+          apiToken: 'notexist',
           url: 'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
         },
       },
@@ -130,7 +116,7 @@ describe('test getCredential', () => {
       query: GET_CREDENTIAL,
       variables: {
         input: {
-          extensionUserID: 'test1',
+          apiToken: 'test1',
           url: 'https://notexist.com',
         },
       },
