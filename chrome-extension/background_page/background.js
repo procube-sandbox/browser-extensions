@@ -17,20 +17,28 @@ function isUnregistered(url) {
   return !REGISTERED_URLS.includes(url);
 }
 
-async function getLoginDomByUrl(url) {
+async function getDomAndCredential(url, apiToken) {
   const requestBody = {
     query: `
-      query getLoginDomByUrl($url: ID!){
-        getLoginDomByUrl(url: $url) {
+      query getDomAndCredential($url: ID!, $getCredentialInput: GetCredentialInput!) {
+        getLoginDomByUrl(url: $url){
           url
           name
           idXPath
           pwXPath
           submitXPath
         }
+        getCredential(input: $getCredentialInput) {
+          id
+          apiToken
+          url
+          userID
+          userPW
+        }
       }`,
     variables: {
       url: url,
+      getCredentialInput: { apiToken: apiToken, url: url },
     },
   };
   try {
@@ -41,34 +49,8 @@ async function getLoginDomByUrl(url) {
     });
     const responseBody = await res.json();
     const loginDoms = responseBody.data.getLoginDomByUrl;
-    return loginDoms;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function getCredential(apiToken, url) {
-  const requestBody = {
-    query: `
-      query getCredential($input: GetCredentialInput!){
-        getCredential(input: $input) {
-          userID
-          userPW
-        }
-      }`,
-    variables: {
-      input: { apiToken: apiToken, url: url },
-    },
-  };
-  try {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-    });
-    const responseBody = await res.json();
     const credential = responseBody.data.getCredential;
-    return credential;
+    return { loginDoms, credential };
   } catch (error) {
     console.log(error);
   }
@@ -77,12 +59,11 @@ async function getCredential(apiToken, url) {
 async function login(tab, url) {
   const apiToken = localStorage.getItem('apiToken');
 
-  const loginDoms = await getLoginDomByUrl(url);
+  const { loginDoms, credential } = await getDomAndCredential(url, apiToken);
   if (!loginDoms) {
     console.log('loginDoms is null.');
     return;
   }
-  const credential = await getCredential(apiToken, url);
   if (!credential) {
     console.log('credential is null.');
     return;
