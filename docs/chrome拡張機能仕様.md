@@ -39,9 +39,8 @@ API に登録されている、ユーザーを特定するためのトークン�
 #### `login()`の動作
 
 1. `localStorage.getItem`: localStorage に格納されたアクセストークンを取得。Token は GraphQL 上でユーザーを特定するためのものである。
-2. `getloginDom`: loginDom を取得する。
-3. `getCredential`: credential(ログイン先のユーザー ID とパスワード)を取得する。
-4. `chrome.tabs.sendMessage()`: loginDom と credential を content script に送信。
+2. `getDomAndCredential`: loginDom と credential(ログイン先のユーザー ID とパスワード)を取得する。
+3. `chrome.tabs.sendMessage()`: loginDom と credential を content script に送信。
 
 ### content script
 
