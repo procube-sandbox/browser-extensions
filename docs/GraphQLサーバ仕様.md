@@ -48,11 +48,21 @@ fetch(API_URL, {
 
 ## スキーマ
 
-DOM の情報は XPath で定義されている。
+DOM の情報は XPath で定義されている。  
+apiToken は拡張機能提供者が発行するものである。
 
-- `LoginDom`: web ページの DOM の XPath のスキーマ
+- `LoginDom`: web サイトの DOM の XPath のスキーマ
+  - `url`: 自動ログインを行う Web サイトのログインページの URL。クエリパラメータやアンカーリンクは取り除く。
+  - `name`: Web サイトの名前
+  - `idXPath`: ログイン ID を入力するフォームの XPath
+  - `pwXPath`: パスワードを入力するフォームの XPath
+  - `submitXPath`: ログインボタンの XPath
 - `Credential`: 自動ログインに必要な ID とパスワードのスキーマ
-- `Credential.apiToken`: 拡張機能からのリクエストが誰からのものかを特定するためのトークン
+  - `id`: Credential スキーマ 1 つ 1 つが持つユニークな ID。データベースでいうところのプライマリキーである。
+  - `apiToken`: 拡張機能からのリクエストが誰からのものかを特定するためのトークン。このトークンは拡張機能利用者のために拡張機能提供者が発行する。
+  - `url`: 自動ログインを行う Web サイトのログインページの URL。クエリパラメータやアンカーリンクは取り除く。
+  - `userID`: ログイン ID
+  - `userPW`: ログインパスワード
 
 ```graphql
 type LoginDom {
