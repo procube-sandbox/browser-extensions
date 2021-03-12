@@ -19,7 +19,7 @@ export const db = {
       name: 'GitHub',
       idXPath: '//*[@id="login_field"]',
       pwXPath: '//*[@id="password"]',
-      submitXPath: '//*[@id="login"]/div[4]/form/input[14]',
+      submitXPath: '//*[@id="login"]/div[4]/form/div/input[12]',
     },
   ],
   credentials: [
