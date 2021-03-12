@@ -10,4 +10,5 @@ export const Query = {
       .find((item) => item.url === input.url);
     return credential;
   },
+  listLoginDoms: (parent, args, { db }) => db.loginDoms,
 };

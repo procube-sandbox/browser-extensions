@@ -1,17 +1,34 @@
 const API_URL = 'http://localhost:4000/graphql';
 
-function getRegisteredUrls() {
-  // 自動ログインに対応したWebサイトのURLを取得する処理を書く。
-  const registeredUrls = [
-    'https://id.nikkei.com/lounge/nl/auth/bpgw/LA0310.seam',
-    'https://id.nikkei.com/lounge/nl/connect/page/LA7010.seam',
-    'https://github.com/login',
-  ];
-
-  return registeredUrls;
+async function getRegisteredUrls() {
+  const requestBody = {
+    query: `
+      query listLoginDoms {
+        listLoginDoms{
+          url
+        }
+      }`,
+  };
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody),
+    });
+    const responseBody = await res.json();
+    const registeredUrls = responseBody.data.listLoginDoms.map(
+      (item) => item.url
+    );
+    return registeredUrls;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-const REGISTERED_URLS = getRegisteredUrls();
+let REGISTERED_URLS = [];
+getRegisteredUrls().then((registeredUrls) => {
+  REGISTERED_URLS = registeredUrls;
+});
 
 function isUnregistered(url) {
   return !REGISTERED_URLS.includes(url);

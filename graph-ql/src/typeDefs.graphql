@@ -22,4 +22,5 @@ input GetCredentialInput {
 type Query {
   getLoginDomByUrl(url: ID!): LoginDom
   getCredential(input: GetCredentialInput!): Credential
+  listLoginDoms: [LoginDom]!
 }
