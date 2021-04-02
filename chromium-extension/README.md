@@ -1,5 +1,5 @@
-# Chrome, Edge 拡張機能
-chromium-extensionはChrome,Edge両方で、コードの変更なしで使用できる。
+# Chrome, Edge, Firefox 拡張機能
+chromium-extensionはChrome,Edge,Firefoxそれぞれで、コードの変更なしで使用できる。
 
 ## Chrome 開発方法
 
@@ -57,4 +57,27 @@ chromium-extensionはChrome,Edge両方で、コードの変更なしで使用で
 #### content script
 
 `Edgeメニュー -> ツール -> 開発者 -> 開発者ツール`
+から DevTools を起動する。
+
+## Firefox 開発方法
+
+### 拡張機能の実行手順
+
+1. ブラウザで`about:addons`にアクセス。
+2. 画面右上のギアマークをクリックし、Debug Add-onsをクリックする。
+3. 遷移先の画面右上のLoad Temporary Add-on...をクリック。
+4. 本レポジトリの`chromium-extension`ディレクトリ下の`manifest.json`を選択する。
+5. 拡張機能が追加されれば成功。
+
+### デバッグ方法
+
+#### background page
+
+1. ブラウザで`about:debugging#/runtime/this-firefox`にアクセス。
+2. 拡張機能の`Inspect`をクリック。
+3. DevTools が起動する。
+
+#### content script
+
+`Firefoxメニュー -> tools -> Web Developer -> Web Developer tools`
 から DevTools を起動する。
